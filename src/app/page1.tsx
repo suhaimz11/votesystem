@@ -6,136 +6,136 @@ import { useMetaMask } from '../../component/metamask';
 // Voting Contract ABI
 const VotingABI = [
   {
-    "inputs": [], 
-    "stateMutability": "nonpayable", 
+    "inputs": [],
+    "stateMutability": "nonpayable",
     "type": "constructor"
   },
   {
-    "anonymous": false, 
+    "anonymous": false,
     "inputs": [
       {
-        "indexed": true, 
-        "internalType": "address", 
-        "name": "voter", 
+        "indexed": true,
+        "internalType": "address",
+        "name": "voter",
         "type": "address"
       },
       {
-        "indexed": false, 
-        "internalType": "enum Voting.Candidate", 
-        "name": "candidate", 
+        "indexed": false,
+        "internalType": "enum Voting.Candidate",
+        "name": "candidate",
         "type": "uint8"
       }
     ],
-    "name": "Voted", 
+    "name": "Voted",
     "type": "event"
   },
   {
-    "anonymous": false, 
-    "inputs": [], 
-    "name": "VotingEnded", 
+    "anonymous": false,
+    "inputs": [],
+    "name": "VotingEnded",
     "type": "event"
   },
   {
-    "inputs": [], 
-    "name": "endVote", 
-    "outputs": [], 
-    "stateMutability": "nonpayable", 
+    "inputs": [],
+    "name": "endVote",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "enum Voting.Candidate", 
-        "name": "candidate", 
+        "internalType": "enum Voting.Candidate",
+        "name": "candidate",
         "type": "uint8"
       }
-    ], 
-    "name": "getVotes", 
+    ],
+    "name": "getVotes",
     "outputs": [
       {
-        "internalType": "uint256", 
-        "name": "", 
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
-    ], 
-    "stateMutability": "view", 
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [], 
-    "name": "getWinner", 
+    "inputs": [],
+    "name": "getWinner",
     "outputs": [
       {
-        "internalType": "string", 
-        "name": "", 
+        "internalType": "string",
+        "name": "",
         "type": "string"
       }
-    ], 
-    "stateMutability": "view", 
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "address", 
-        "name": "", 
+        "internalType": "address",
+        "name": "",
         "type": "address"
       }
-    ], 
-    "name": "hasVoted", 
+    ],
+    "name": "hasVoted",
     "outputs": [
       {
-        "internalType": "bool", 
-        "name": "", 
+        "internalType": "bool",
+        "name": "",
         "type": "bool"
       }
-    ], 
-    "stateMutability": "view", 
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "enum Voting.Candidate", 
-        "name": "candidate", 
+        "internalType": "enum Voting.Candidate",
+        "name": "candidate",
         "type": "uint8"
       }
-    ], 
-    "name": "vote", 
-    "outputs": [], 
-    "stateMutability": "nonpayable", 
+    ],
+    "name": "vote",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "enum Voting.Candidate", 
-        "name": "", 
+        "internalType": "enum Voting.Candidate",
+        "name": "",
         "type": "uint8"
       }
-    ], 
-    "name": "votes", 
+    ],
+    "name": "votes",
     "outputs": [
       {
-        "internalType": "uint256", 
-        "name": "", 
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
-    ], 
-    "stateMutability": "view", 
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [], 
-    "name": "votingEnded", 
+    "inputs": [],
+    "name": "votingEnded",
     "outputs": [
       {
-        "internalType": "bool", 
-        "name": "", 
+        "internalType": "bool",
+        "name": "",
         "type": "bool"
       }
-    ], 
-    "stateMutability": "view", 
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ];
@@ -250,62 +250,60 @@ export default function VotingPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="bg-gray-900 p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-3xl font-semibold mb-6 text-yellow-300 text-center">Voting App</h1>
-        
-        {!connected ? (
-          <button 
-            onClick={connect} 
-            className="w-full bg-yellow-500 text-gray-800 py-2 rounded-lg hover:bg-yellow-400 transition"
-          >
-            Connect Wallet
-          </button>
-        ) : (
-          <>
-            <p className="mb-4 text-center text-lg text-white">Connected Account: {account}</p>
+    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold mb-4">Voting App</h1>
+      
+      {!connected ? (
+        <button 
+          onClick={connect} 
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+        >
+          Connect Wallet
+        </button>
+      ) : (
+        <>
+          <p className="mb-2">Connected Account: {account}</p>
+          
+          <div className="mb-4">
+            <p>Voting Status: {votingEnded ? "Closed" : "Open"}</p>
+            <p>Trump Votes: {votes.trump}</p>
+            <p>Kamala Votes: {votes.kamala}</p>
             
-            <div className="mb-6">
-              <p className="text-lg text-white">Voting Status: {votingEnded ? "Closed" : "Open"}</p>
-              <p className="text-lg text-white">Trump Votes: {votes.trump}</p>
-              <p className="text-lg text-white">Kamala Votes: {votes.kamala}</p>
-              
-              {winner && <p className="font-bold mt-4 text-yellow-300 text-center">Winner: {winner}</p>}
+            {winner && <p className="font-bold mt-2">Winner: {winner}</p>}
+          </div>
+
+          {!hasVoted && !votingEnded && (
+            <div className="flex space-x-4 mb-4">
+              <button 
+                onClick={() => voteFor(0)} 
+                className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600"
+              >
+                Vote Trump
+              </button>
+              <button 
+                onClick={() => voteFor(1)} 
+                className="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+              >
+                Vote Kamala
+              </button>
             </div>
+          )}
 
-            {!hasVoted && !votingEnded && (
-              <div className="flex justify-between mb-6">
-                <button 
-                  onClick={() => voteFor(0)} 
-                  className="flex-1 bg-red-700 text-white py-2 rounded-lg hover:bg-red-600 transition"
-                >
-                  Vote Trump
-                </button>
-                <button 
-                  onClick={() => voteFor(1)} 
-                  className="flex-1 bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-600 transition"
-                >
-                  Vote Kamala
-                </button>
-              </div>
-            )}
+          <button 
+            onClick={endVoting} 
+            className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+          >
+            End Voting
+          </button>
 
-            <button 
-              onClick={endVoting} 
-              className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-600 transition mb-4"
-            >
-              End Voting
-            </button>
-
-            <button 
-              onClick={disconnect} 
-              className="w-full bg-red-700 text-white py-2 rounded-lg hover:bg-red-600 transition"
-            >
-              Disconnect Wallet
-            </button>
-          </>
-        )}
-      </div>
+          <button 
+            onClick={disconnect} 
+            className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 mt-4"
+          >
+            Disconnect Wallet
+          </button>
+        </>
+      )}
     </div>
   );
 }

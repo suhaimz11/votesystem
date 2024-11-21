@@ -3,8 +3,6 @@ pragma solidity ^0.8.27;
 
 contract Voting {
 
-//@author chimmykk
-// a smart contract to vote for Kamala and trump
     // Define candidates
     enum Candidate { Trump, Kamala }
 
@@ -20,6 +18,7 @@ contract Voting {
     // Events to log the voting action
     event Voted(address indexed voter, Candidate candidate);
     event VotingEnded();
+    event VotingReset();  // Event for reset action
 
     // Constructor to initialize the contract
     constructor() {
@@ -66,5 +65,24 @@ contract Voting {
         } else {
             return "It's a tie!";
         }
+    }
+
+    // Function to reset the voting process
+    function resetVoting() public {
+        require(votingEnded, "Voting has not ended yet.");
+
+        // Reset the votes and voting status
+        votes[Candidate.Trump] = 0;
+        votes[Candidate.Kamala] = 0;
+        
+        // Reset the hasVoted mapping for all users
+        // In practice, this would require an additional method to track users who have voted.
+        // Smart contracts do not support direct iteration over mappings, so this might need to be handled off-chain.
+
+        // Set the voting to open
+        votingEnded = false;
+
+        // Emit an event for the reset action
+        emit VotingReset();
     }
 }
