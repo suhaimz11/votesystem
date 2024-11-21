@@ -1,8 +1,4 @@
-declare global {
-    interface Window {
-      ethereum: any; // Or use a more specific type if you want better typing for MetaMask's provider
-    }
+interface Window {
+    ethereum?: any;  // Declare `ethereum` as an optional property on `window`
   }
-  
-  export {}; // This is needed to make this file a module
   
